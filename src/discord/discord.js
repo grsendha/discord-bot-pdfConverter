@@ -4,14 +4,6 @@ import { parseStringify } from "../utils.js/utils.js";
 import { imageHandler, wordHandler } from "../interactionHandler/handler.js";
 import pdfConverterButton from "./button.js";
 
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-  ],
-});
-
 // const userConversions = {};
 const userQueue = [];
 
@@ -31,6 +23,7 @@ const clientResponse = async () => {
         const name = attachment[0]?.name.split(".")[0];
         const attachmentUrl = attachment[0]?.url;
         const userId = message.author.id;
+        const username = message.author.username;
 
         userQueue.push({
           userId,
@@ -38,13 +31,13 @@ const clientResponse = async () => {
           attachmentUrl,
         });
 
-        // Store user-specific data
-        // userConversions[userId] = {
-        //   name,
-        //   attachmentUrl,
-        // };
-
-        await pdfConverterButton(message, attachment[0]?.name, userId);
+        await pdfConverterButton(
+          message,
+          attachment[0]?.name,
+          userId,
+          username
+        );
+        await message.delete();
       }
     } catch (error) {
       throw new Error(error);

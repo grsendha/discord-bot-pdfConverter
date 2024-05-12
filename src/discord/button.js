@@ -5,7 +5,7 @@ import {
   ButtonStyle,
 } from "discord.js";
 
-const pdfConverterButton = async (message, name, userId) => {
+const pdfConverterButton = async (message, name, userId, username) => {
   const embed = new EmbedBuilder()
     .setTitle(`You Uploaded ${name}`)
     .setDescription("Select Below which file you want to convert to");
@@ -27,14 +27,14 @@ const pdfConverterButton = async (message, name, userId) => {
 
   const row = new ActionRowBuilder().addComponents(button1, button2, button3);
 
-  await message.channel.send({
+  await message.author.send({
     embeds: [embed],
     components: [row],
     ephemeral: true, // Set the ephemeral option to true
   });
 
   await message.reply({
-    content: "Check your direct messages for the conversion options!",
+    content: `${username} Please Check your DM for the conversion options!`,
     ephemeral: true,
   });
 };
